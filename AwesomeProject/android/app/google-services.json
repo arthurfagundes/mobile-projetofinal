@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "121664431331",
+    "project_id": "loginapp-eeea8",
+    "storage_bucket": "loginapp-eeea8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121664431331:android:351743c48b8519e1b091d6",
+        "android_client_info": {
+          "package_name": "com.awesomeproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTdmNZvCGq7HWjsXPECDMIzbEJ0oALm6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
