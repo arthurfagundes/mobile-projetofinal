@@ -44,9 +44,13 @@ const TelaListarCliente = ({ navigation }: ListarClienteProps) => {
             .finally(() => setIsLoading(false));
     }
 
+    function alterarNota(id: string) {
+        navigation.navigate("AlterarNota", { id: id })
+    }
+
     return (
         <View>
-            <Text style={{ fontSize: 30, fontWeight: "bold", alignSelf: 'center', marginTop: 5}}>Listagem de Clientes</Text>
+            <Text style={{ fontSize: 30, fontWeight: "bold", alignSelf: 'center', marginTop: 5 }}>Listagem de Clientes</Text>
             <FlatList data={clientes}
                 renderItem={(info) => {
                     return (
@@ -64,6 +68,14 @@ const TelaListarCliente = ({ navigation }: ListarClienteProps) => {
                                     <Text>{info.item.dataNasc}</Text>
                                 </Pressable>
                             </View>
+                            <View style={styles.botao_alterar}>
+                                <Pressable
+                                    onPress={() => alterarNota(info.item.id)}>
+                                    <Text style={{ fontWeight: "bold", fontSize: 30 }}>
+                                        A
+                                    </Text>
+                                </Pressable>
+                            </View>
                             <View style={styles.botao_deletar}>
                                 <Pressable
                                     onPress={() => deletarNota(info.item.id)}>
@@ -72,6 +84,7 @@ const TelaListarCliente = ({ navigation }: ListarClienteProps) => {
                                     </Text>
                                 </Pressable>
                             </View>
+
 
                         </View>
 
@@ -97,6 +110,13 @@ const styles = StyleSheet.create({
     },
     botao_deletar: {
         backgroundColor: 'red',
+        borderRadius: 5,
+        width: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    botao_alterar: {
+        backgroundColor: 'blue',
         borderRadius: 5,
         width: 30,
         justifyContent: 'center',
