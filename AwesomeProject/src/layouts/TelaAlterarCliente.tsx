@@ -1,10 +1,13 @@
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
+import { useEffect, useState } from "react";
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 import firestore from "@react-native-firebase/firestore";
-import { useState } from "react";
-import { CadastrarClienteProps } from "../types";
+import { AlterarClienteProps } from "../types";
+import Carregamento from "./Carregamento";
+import { IClientes } from "../models/IClientes";
 
-const TelaCadastrarClientes = ({ navigation }: CadastrarClienteProps) => {
+export default ({navigation, route}: AlterarClienteProps) => {
+    const [id] = useState(route.params.id);
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [rua, setRua] = useState('');
@@ -15,95 +18,125 @@ const TelaCadastrarClientes = ({ navigation }: CadastrarClienteProps) => {
     const [dataNasc, setDataNasc] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    function cadastrarCliente() {
+    async function carregar(){
         setIsLoading(true);
+        const resultado = await firestore()
+            .collection('clientes')
+            .doc(id)
+            .get();
 
-            firestore()
-                .collection('clientes')
-                .add({
-                    nome,
-                    cpf,
-                    rua,
-                    numero,
-                    bairro,
-                    cidade,
-                    estado,
-                    dataNasc,
-                    created_at: firestore.FieldValue.serverTimestamp()
-                })
-                .then(() => {
-                    Alert.alert("Cliente", "Cadastrado com sucesso")
-                    navigation.navigate('Home')
-                })
-                .catch((error) => console.log(error))
-                .finally(() => setIsLoading(false))
+        const nota = {
+                id: resultado.id,
+                ...resultado.data()
+            } as IClientes;   
+
+        setNome(nota.nome);
+        setCpf(nota.cpf);
+        setRua(nota.rua);
+        setNumero(nota.numero);
+        setBairro(nota.bairro);
+        setCidade(nota.cidade);
+        setEstado(nota.estado);
+        setDataNasc(nota.dataNasc);
+        setIsLoading(false);
+    };
+    
+    useEffect(() => {
+        carregar();
+    }, []);
+    
+    function alterar() {
+        setIsLoading(true);
+        
+        firestore()
+            .collection('clientes')
+            .doc(id)
+            .update({
+                nome,
+                cpf,
+                rua,
+                numero,
+                bairro,
+                cidade,
+                estado,
+                dataNasc,
+                created_at: firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                Alert.alert("Cliente", "Alterado com sucesso")
+                navigation.goBack();
+            })
+            .catch((error) => console.log(error))
+            .finally(() => setIsLoading(false));
     }
+
     return (
-        <ScrollView>
-            <View>
-                <Image style={styles.logo} source={require('../assets/new-product-icon.png')} />
-                <Text style={styles.texto}>Nome</Text>
+        <View>
+            <Carregamento isLoading={isLoading}/>
+
+            <Text style={styles.texto}>Nome</Text>
                 <TextInput
-                    placeholder="Nome completo"
                     style={styles.inputs}
                     onChangeText={(text) => { setNome(text) }} />
                 <Text style={styles.texto}>CPF</Text>
                 <TextInput
-                    placeholder="CPF"
                     style={styles.inputs}
                     onChangeText={(text) => { setCpf(text) }} />
                 <Text style={styles.texto}>Rua</Text>
                 <TextInput
-                    placeholder="Rua"
                     style={styles.inputs}
                     onChangeText={(text) => { setRua(text) }} />
                     <Text style={styles.texto}>Número</Text>
                 <TextInput
-                    placeholder="Número"
                     style={styles.inputs}
                     onChangeText={(text) => { setNumero(text) }} />
                     <Text style={styles.texto}>Bairro</Text>
                 <TextInput
-                    placeholder="Bairro"
                     style={styles.inputs}
                     onChangeText={(text) => { setBairro(text) }} />
                     <Text style={styles.texto}>Cidade</Text>
                 <TextInput
-                    placeholder="Cidade"
                     style={styles.inputs}
                     onChangeText={(text) => { setCidade(text) }} />
                     <Text style={styles.texto}>Estado</Text>
                 <TextInput
-                    placeholder="Estado"
                     style={styles.inputs}
                     onChangeText={(text) => { setEstado(text) }} />
                 <Text style={styles.texto}>Data de nascimento</Text>
                 <TextInput
-                    placeholder="00/00/00"
                     style={styles.inputs}
                     onChangeText={(text) => { setDataNasc(text) }} />
 
                 <Pressable
                     style={styles.botao}
-                    onPress={() => cadastrarCliente()}>
-                    <Text style={styles.botaoTexto}>Cadastrar</Text>
+                    onPress={() => alterar()}>
+                    <Text style={styles.botaoTexto}>Alterar</Text>
                 </Pressable>
-            </View>
-        </ScrollView>
-
-    )
+        </View>
+    );
 }
 
-
-
-
 const styles = StyleSheet.create({
-    logo: {
-        height: 100,
-        width: 100,
-        marginTop: 60,
-        marginBottom: 30,
-        alignSelf: 'center'
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    caixa_texto: {
+        width: '70%',
+        color: 'black',
+        borderWidth: 1,
+        borderRadius: 4,
+        margin: 3
+    },
+    botao: {
+        justifyContent: 'center',
+        backgroundColor: 'green',
+        paddingVertical: 10,
+        paddingHorizontal: 30
+    },
+    desc_botao: {
+        fontSize: 20
     },
     inputs: {
         width: 350,
@@ -122,18 +155,8 @@ const styles = StyleSheet.create({
         alignContent: 'flex-start',
         marginLeft: 25
     },
-    botao: {
-        color: 'black',
-        backgroundColor: "#c9c9c5",
-        borderRadius: 20,
-        alignItems: "center",
-        marginTop: 2,
-        marginHorizontal: 100
-    },
     botaoTexto: {
         fontSize: 20,
         color: 'black'
     }
 });
-
-export default TelaCadastrarClientes;

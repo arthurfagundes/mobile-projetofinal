@@ -11,9 +11,9 @@ type RootStackParamList = {
     CadastrarProduto: undefined;
     CadastrarAtendimento: undefined;
     ListarAtendimento: undefined;
-    AlterarNota: {id: string};
     CadastrarCliente: undefined;
     ListarCliente: undefined;
+    AlterarCliente: {id: string};
   };
   
   
@@ -43,9 +43,6 @@ type RootStackParamList = {
 
   //ListarAtendimentoScreen
   type ListarAtendimentoProps = NativeStackScreenProps<RootStackParamList, 'ListarAtendimento'>;
-
-  //AlterarNotaS
-  type AlterarNotaProps = NativeStackScreenProps<RootStackParamList, 'AlterarNota'>;
   
   //CadastrarClienteScreen
   type CadastrarClienteProps = NativeStackScreenProps<RootStackParamList, 'CadastrarCliente'>;
@@ -53,4 +50,8 @@ type RootStackParamList = {
   //ListarNotaScreen
   type ListarClienteProps = NativeStackScreenProps<RootStackParamList, 'ListarCliente'>;
 
-  export type {HomeProps, LoginProps, CadastrarProps, EsqueciProps, CadastrarNotaProps, ListarClienteProps, AlterarNotaProps, CadastrarClienteProps, ListarAtendimentoProps, CadastrarAtendimentoProps, ListarNotaProps, CadastrarProdutoProps, RootStackParamList};
+  //AlterarClienteScreen
+  type AlterarClienteProps = NativeStackScreenProps<RootStackParamList, 'AlterarCliente'>;
+
+
+  export type {HomeProps, LoginProps, CadastrarProps, EsqueciProps, CadastrarNotaProps, AlterarClienteProps, ListarClienteProps, CadastrarClienteProps, ListarAtendimentoProps, CadastrarAtendimentoProps, ListarNotaProps, CadastrarProdutoProps, RootStackParamList};

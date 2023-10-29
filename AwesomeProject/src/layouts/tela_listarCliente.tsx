@@ -44,8 +44,8 @@ const TelaListarCliente = ({ navigation }: ListarClienteProps) => {
             .finally(() => setIsLoading(false));
     }
 
-    function alterarNota(id: string) {
-        navigation.navigate("AlterarNota", { id: id })
+    function alterarCliente(id: string){
+        navigation.navigate("AlterarCliente", {id: id})
     }
 
     return (
@@ -70,7 +70,7 @@ const TelaListarCliente = ({ navigation }: ListarClienteProps) => {
                             </View>
                             <View style={styles.botao_alterar}>
                                 <Pressable
-                                    onPress={() => alterarNota(info.item.id)}>
+                                    onPress={() => alterarCliente(info.item.id)}>
                                     <Text style={{ fontWeight: "bold", fontSize: 30 }}>
                                         A
                                     </Text>
