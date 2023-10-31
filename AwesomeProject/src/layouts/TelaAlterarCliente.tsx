@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, TextInput, View, ScrollView } from "react-native";
 
 import firestore from "@react-native-firebase/firestore";
 import { AlterarClienteProps } from "../types";
@@ -71,7 +71,8 @@ export default ({navigation, route}: AlterarClienteProps) => {
     }
 
     return (
-        <View>
+        <ScrollView>
+            <View>
             <Carregamento isLoading={isLoading}/>
 
             <Text style={styles.texto}>Nome</Text>
@@ -113,6 +114,8 @@ export default ({navigation, route}: AlterarClienteProps) => {
                     <Text style={styles.botaoTexto}>Alterar</Text>
                 </Pressable>
         </View>
+        </ScrollView>
+        
     );
 }
 
@@ -130,10 +133,16 @@ const styles = StyleSheet.create({
         margin: 3
     },
     botao: {
-        justifyContent: 'center',
-        backgroundColor: 'green',
-        paddingVertical: 10,
-        paddingHorizontal: 30
+        color: 'black',
+        backgroundColor: "#c9c9c5",
+        borderRadius: 20,
+        alignItems: "center",
+        marginTop: 2,
+        marginHorizontal: 100
+    },
+    botaoTexto: {
+        fontSize: 20,
+        color: 'black'
     },
     desc_botao: {
         fontSize: 20
@@ -154,9 +163,5 @@ const styles = StyleSheet.create({
         fontSize: 25,
         alignContent: 'flex-start',
         marginLeft: 25
-    },
-    botaoTexto: {
-        fontSize: 20,
-        color: 'black'
     }
 });
